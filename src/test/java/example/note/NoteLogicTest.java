@@ -4,6 +4,9 @@ import example.note.NoteLogic;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Класс реализует модульные тесты для логики класса Note
+ */
 public class NoteLogicTest {
 
     NoteLogic noteLogic = new NoteLogic();
@@ -14,7 +17,7 @@ public class NoteLogicTest {
     @Test
     public void testAddNewNote(){
         String commandResult = noteLogic.handleMessage("/add New Note");
-        Assertions.assertEquals(commandResult, "Note added!");
+        Assertions.assertEquals("Note added!", commandResult);
         String result = noteLogic.handleMessage("/notes");
         Assertions.assertEquals("Your notes: New Note", result);
     }
@@ -26,7 +29,7 @@ public class NoteLogicTest {
     @Test
     public void testGetAllNotes(){
         String result1 = noteLogic.handleMessage("/notes");
-        Assertions.assertEquals(result1, "Your notes:");
+        Assertions.assertEquals("Your notes:", result1);
         noteLogic.handleMessage("/add New Note");
         String result2 = noteLogic.handleMessage("/notes");
         Assertions.assertEquals("Your notes: New Note", result2);
@@ -40,7 +43,7 @@ public class NoteLogicTest {
     public void testEditNote(){
         noteLogic.handleMessage("/add New Note");
         String commandResult = noteLogic.handleMessage("/edit Edited Note");
-        Assertions.assertEquals(commandResult, "Note edited!");
+        Assertions.assertEquals("Note edited!", commandResult);
         String result = noteLogic.handleMessage("/notes");
         Assertions.assertEquals("Your notes: Edited Note", result);
     }
@@ -51,7 +54,9 @@ public class NoteLogicTest {
      */
     @Test
     public void testDeleteNote(){
-        String commandResult = noteLogic.handleMessage("/del New Note");
-        Assertions.assertEquals("No note found!", commandResult);
+        noteLogic.handleMessage("/add New Note");
+        noteLogic.handleMessage("/add Deleted Note");
+        noteLogic.handleMessage("/del Deleted Note");
+        Assertions.assertEquals("Your notes: New Note", noteLogic.handleMessage("/notes"));
     }
 }

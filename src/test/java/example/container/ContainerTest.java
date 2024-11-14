@@ -6,21 +6,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Класс реализует модульные тесты для методов
+ * добавления и удаления класса Container
+ */
 public class ContainerTest {
 
-    Container container;
-    Item item1;
-    Item item2;
+    private Container container;
+
     @BeforeEach
     public void setUp() {
         container = new Container();
-        item1 = new Item(1L);
-        item2 = new Item(2L);
     }
 
     /**
      * Тест проверяет добавление элемента в контейнер.
-     *
+     * <p>
      * Сначала проверяем, что контейнер пуст
      * Потом добавляем элемент в контейнер
      * Проверяем, что контейнер не пуст и содержит ожидаемый элемент
@@ -28,6 +29,7 @@ public class ContainerTest {
     @Test
     public void addItemTest() {
         Assertions.assertEquals(0, container.size());
+        Item item1 = new Item(1L);
 
         container.add(item1);
         Assertions.assertEquals(1, container.size());
@@ -35,28 +37,36 @@ public class ContainerTest {
     }
 
     /**
-     * Тест проверяет удаление элемента из контейнера.
-     *
+     * Тест проверяет удаление существующего элемента из контейнера.
+     * <p>
      * Добавляем элемент
-     * Удаляем элемент и проверяем, что метод вернул true (операция успешна)
+     * Удаляем элемент и проверяем, что контейнер пуст
      * Проверяем, что контейнер больше не содержит элемент
      */
     @Test
     public void removeItemTest() {
+        Item item1 = new Item(1L);
         container.add(item1);
-        Assertions.assertTrue(container.remove(item1));
+        container.remove(item1);
+        Assertions.assertEquals(0, container.size());
         Assertions.assertFalse(container.contains(item1));
     }
 
     /**
      * Тест проверяет удаление несуществующего в контейнере элемента.
-     *
-     * Удаляем несуществующий элемент, ожидаем false
+     * <p>
+     * Добавляем элемент (1)
+     * Удаляем несуществующий элемент (2), ожидаем false
+     * Убеждаемся, что команда не удалила существующий элемент
      * На всякий случай убеждаемся, что в контейнере ничего не появилось
      */
     @Test
     void testRemoveNonExistentItem() {
+        Item item1 = new Item(1L);
+        Item item2 = new Item(2L);
+        container.add(item1);
         Assertions.assertFalse(container.remove(item2));
-        Assertions.assertEquals(0, container.size());
+        Assertions.assertTrue(container.contains(item1));
+        Assertions.assertEquals(1, container.size());
     }
 }
