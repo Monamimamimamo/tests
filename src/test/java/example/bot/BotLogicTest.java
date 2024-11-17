@@ -58,6 +58,52 @@ class BotLogicTest {
     }
 
     /**
+     * Тест для команды /test:
+     * <p>
+     * Граничный случай, все тесты не пройдены
+     */
+    @Test
+    void testFailTests() {
+        int currentMessagesSize;
+        botLogic.processCommand(user, "/test");
+
+        Assertions.assertEquals("Вычислите степень: 10^2", testBot.getMessages().getLast());
+        botLogic.processCommand(user, "10");
+        currentMessagesSize = testBot.getMessages().size();
+        Assertions.assertEquals("Вы ошиблись, верный ответ: 100", testBot.getMessages().get(currentMessagesSize - 2));
+
+        Assertions.assertEquals("Сколько будет 2 + 2 * 2", testBot.getMessages().getLast());
+        botLogic.processCommand(user, "8");
+        currentMessagesSize = testBot.getMessages().size();
+        Assertions.assertEquals("Вы ошиблись, верный ответ: 6", testBot.getMessages().get(currentMessagesSize - 2));
+
+        Assertions.assertEquals("Тест завершен", testBot.getMessages().getLast());
+    }
+
+    /**
+     * Тест для команды /test:
+     * <p>
+     * Граничный случай, все тесты пройдены успешно
+     */
+    @Test
+    void testSuccessCommandsTest() {
+        int currentMessagesSize;
+        botLogic.processCommand(user, "/test");
+
+        Assertions.assertEquals("Вычислите степень: 10^2", testBot.getMessages().getLast());
+        botLogic.processCommand(user, "100");
+        currentMessagesSize = testBot.getMessages().size();
+        Assertions.assertEquals("Правильный ответ!", testBot.getMessages().get(currentMessagesSize - 2));
+
+        Assertions.assertEquals("Сколько будет 2 + 2 * 2", testBot.getMessages().getLast());
+        botLogic.processCommand(user, "6");
+        currentMessagesSize = testBot.getMessages().size();
+        Assertions.assertEquals("Правильный ответ!", testBot.getMessages().get(currentMessagesSize - 2));
+
+        Assertions.assertEquals("Тест завершен", testBot.getMessages().getLast());
+    }
+
+    /**
      * Тест для команды /notify
      * <p>
      * Заходим в режим
