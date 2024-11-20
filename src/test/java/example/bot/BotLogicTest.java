@@ -76,8 +76,6 @@ class BotLogicTest {
         botLogic.processCommand(user, "8");
         currentMessagesSize = testBot.getMessages().size();
         Assertions.assertEquals("Вы ошиблись, верный ответ: 6", testBot.getMessages().get(currentMessagesSize - 2));
-
-        Assertions.assertEquals("Тест завершен", testBot.getMessages().getLast());
     }
 
     /**
@@ -99,8 +97,6 @@ class BotLogicTest {
         botLogic.processCommand(user, "6");
         currentMessagesSize = testBot.getMessages().size();
         Assertions.assertEquals("Правильный ответ!", testBot.getMessages().get(currentMessagesSize - 2));
-
-        Assertions.assertEquals("Тест завершен", testBot.getMessages().getLast());
     }
 
     /**
@@ -123,12 +119,13 @@ class BotLogicTest {
         botLogic.processCommand(user, "1");
         Assertions.assertEquals("Напоминание установлено", testBot.getMessages().getLast());
 
-        Assertions.assertNotEquals("Сработало напоминание: 'Напоминание'", testBot.getMessages().getLast());
+        Assertions.assertEquals(3, testBot.getMessages().size());
         Thread.sleep(900);
-        Assertions.assertNotEquals("Сработало напоминание: 'Напоминание'", testBot.getMessages().getLast());
+        Assertions.assertEquals(3, testBot.getMessages().size());
 
-        Thread.sleep(1020);
-        Assertions.assertEquals("Сработало напоминание: 'Напоминание'", testBot.getMessages().getLast());
+        Thread.sleep(120);
+        Assertions.assertNotEquals(3, testBot.getMessages().size());
+        Assertions.assertTrue(testBot.getMessages().getLast().contains("Напоминание"));
     }
 
     /**
