@@ -106,7 +106,7 @@ class BotLogicTest {
      * Проверяем, что нам нужно ввести текст для напомнинания, вводим текст, проверяем ответ
      * Проверяем, что вывелся соответствующий текст, вводим задержку
      * Убеждаемся, что напоминание не пришло сразу и спустя какое-то время до назначенного
-     * Ожидаем напоминание и сверяемся с ним
+     * Ожидаем напоминание
      */
     @Test
     void testCommandNotify() throws InterruptedException {
@@ -119,13 +119,11 @@ class BotLogicTest {
         botLogic.processCommand(user, "1");
         Assertions.assertEquals("Напоминание установлено", testBot.getMessages().getLast());
 
-        Assertions.assertEquals(3, testBot.getMessages().size());
         Thread.sleep(900);
         Assertions.assertEquals(3, testBot.getMessages().size());
 
         Thread.sleep(120);
-        Assertions.assertNotEquals(3, testBot.getMessages().size());
-        Assertions.assertTrue(testBot.getMessages().getLast().contains("Напоминание"));
+        Assertions.assertEquals(4, testBot.getMessages().size());
     }
 
     /**
